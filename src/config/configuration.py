@@ -1,7 +1,8 @@
-from src.constants import *
+from src.constants import CONFIG_FILE_PATH, PARAMS_FILE_PATH
 from src.utils.common import read_yaml, create_directories
 from src.logger import CustomLogger
-from src.entity.config_entity import DataIngestionConfig
+from src.entity.config_entity import DataIngestionConfig, PrepareBaseModelConfig
+from pathlib import Path
 
 
 class ConfigurationManager:
@@ -16,6 +17,7 @@ class ConfigurationManager:
         self.params = read_yaml(params_filepath, logger=self.logger)
 
         create_directories([self.config.data_artifacts_root], logger=self.logger)
+        create_directories([self.config.model_artifacts_root], logger=self.logger)
 
     def get_data_ingestion_config(self) -> DataIngestionConfig:
         config = self.config.data_ingestion
@@ -30,3 +32,26 @@ class ConfigurationManager:
         )
 
         return data_ingestion_config
+
+    def get_prepare_base_model_config(self) -> PrepareBaseModelConfig:
+        config = self.config.prepare_base_model
+
+        create_directories([config.root_dir], logger=self.logger)
+
+        prepare_base_model_config = PrepareBaseModelConfig(
+            root_dir=Path(config.root_dir),
+            base_model_path=Path(config.base_model_path),
+            updated_base_model_path=Path(config.updated_base_model_path),
+            params_augmentation=self.params.AUGMENTATION,
+            params_image_size=self.params.IMAGE_SIZE,
+            params_batch_size=self.params.BATCH_SIZE,
+            params_include_top=self.params.INCLUDE_TOP,
+            params_epochs=self.params.EPOCHS,
+            params_classes=self.params.CLASSES,
+            params_weights=self.params.WEIGHTS,
+            params_learning_rate=self.params.LEARNING_RATE,
+            params_activation=self.params.ACTIVATION,
+            params_freeze_all=self.params.FREEZE_ALL,
+            params_freeze_till=self.params.FREEZE_TILL,
+        )
+        return prepare_base_model_config

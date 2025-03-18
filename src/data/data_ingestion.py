@@ -46,13 +46,20 @@ class DataIngestion:
         Extracts the zip file into the data directory
         Function returns None
         """
+        try:
+            unzip_path = self.config.unzip_dir
+            os.makedirs(unzip_path, exist_ok=True)
+            with zipfile.ZipFile(self.config.local_data_file, "r") as zip_ref:
+                zip_ref.extractall(unzip_path)
 
-        unzip_path = self.config.unzip_dir
-        os.makedirs(unzip_path, exist_ok=True)
-        with zipfile.ZipFile(self.config.local_data_file, "r") as zip_ref:
-            zip_ref.extractall(unzip_path)
+            extract_logger.save_logs(
+                msg=f"Data extracted from {self.config.local_data_file} into {unzip_path} Successfully",
+                log_level="info",
+            )
 
-        extract_logger.save_logs(
-            msg=f"Data extracted from {self.config.local_data_file} into {unzip_path} Successfully",
-            log_level="info",
-        )
+        except Exception as e:
+            extract_logger.save_logs(
+                msg=f"Error in extracting data from {self.config.local_data_file} into {unzip_path}: {e}",
+                log_level="error",
+            )
+            raise e
