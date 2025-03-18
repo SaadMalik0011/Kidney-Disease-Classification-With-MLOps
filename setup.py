@@ -1,10 +1,28 @@
-from setuptools import find_packages, setup
+import setuptools
 
-setup(
-    name='src',
-    packages=find_packages(),
-    version='0.1.0',
-    description='A deep learning project for kidney cancer detection using Convolutional Neural Networks (CNN). It includes a complete MLOps pipeline for automated data processing, model training, deployment, and monitoring.',
-    author='Saad Malik',
-    license='MIT',
+with open("README.md", "r", encoding="utf-8") as f:
+    long_description = f.read()
+
+__version__ = "0.0.0"
+
+REPO_NAME = "Kidney-Disease-Classification-With-MLOps"  # GITHUB REPO NAME
+AUTHOR_USER_NAME = "SaadMalik0011"  # GITHUB USERNAME
+SRC_REPO = "src"  # PACKAGE NAME
+AUTHOR_EMAIL = "xs2saadmalik@gmail.com"  # EMAIL
+
+setuptools.setup(
+    name=SRC_REPO,
+    version=__version__,
+    author=AUTHOR_USER_NAME,
+    author_email=AUTHOR_EMAIL,
+    description="A small python package for CNN app",
+    long_description=long_description,
+    long_description_content="text/markdown",
+    url=f"https://github.com/{AUTHOR_USER_NAME}/{REPO_NAME}",
+    project_urls={
+        "Bug Tracker": f"https://github.com/{AUTHOR_USER_NAME}/{REPO_NAME}/issues",
+    },
+    package_dir={"": "src"},
+    packages=setuptools.find_packages(where="src"),
+    license="MIT",
 )
