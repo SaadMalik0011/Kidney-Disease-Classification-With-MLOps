@@ -1,7 +1,7 @@
 import os
 from box.exceptions import BoxValueError
 import yaml
-from src.logger import create_log_path, CustomLogger
+from src.logger import CustomLogger
 import json
 import joblib
 from ensure import ensure_annotations
