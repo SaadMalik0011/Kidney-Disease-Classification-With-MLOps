@@ -17,7 +17,7 @@ class PrepareBaseModel:
                 input_shape=self.config.params_image_size,
                 pooling=None,
                 classes=self.config.params_classes,
-                classifier_activation=self.config.params_activation,
+                classifier_activation="softmax",
             )
             self.save_model(path=self.config.base_model_path, model=self.model, logger=download_base_model_logger)
 
@@ -43,7 +43,7 @@ class PrepareBaseModel:
         # prediction = tf.keras.layers.Dense(units=64, activation="relu")(flatten_in)
         #prediction = tf.keras.layers.Dense(units=classes, activation=activation)(flatten_in) # prediction = tf.keras.layers.Dense(units=classes, activation=activation)(prediction)
 
-        logger.save_logs(msg=f"Model Architecture constructed successfully with {activation} activation function and {classes} classes.", log_level="info")
+        logger.save_logs(msg=f"Model Architecture constructed successfully with softmax activation function and {classes} classes.", log_level="info")
 
         
         full_model = tf.keras.models.Model(inputs=model.input, outputs=prediction)
@@ -69,7 +69,7 @@ class PrepareBaseModel:
                 freeze_all=self.config.params_freeze_all,
                 freeze_till=self.config.params_freeze_till,
                 learning_rate=self.config.params_learning_rate,
-                activation=self.config.params_activation,
+                activation="softmax",
                 logger=prepare_full_model_logger,
             )
 

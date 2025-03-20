@@ -34,7 +34,7 @@ try:
 		configuration_logger=configuration_logger(),
 	)
 	obj.main()
-	pipeline_logger().save_logs(msg=f">>>>>>>>>>>> stage {STAGE_NAME} completed <<<<<<<<<<<<\n\nx============x\n\n",log_level="info")
+	pipeline_logger().save_logs(msg=f">>>>>>>>>>>> stage {STAGE_NAME} completed <<<<<<<<<<<<\n\nx============x",log_level="info")
 except Exception as e:
 	pipeline_logger().save_logs(msg=f"Error in {STAGE_NAME}. Error: {e}", log_level="error")
 	raise e
@@ -52,7 +52,7 @@ try:
 		configuration_logger=configuration_logger(),
 	)
 	obj.main()
-	pipeline_logger().save_logs(msg=f">>>>>>>>>>>> stage {STAGE_NAME} completed <<<<<<<<<<<<\n\nx============x\n\n", log_level="info")
+	pipeline_logger().save_logs(msg=f">>>>>>>>>>>> stage {STAGE_NAME} completed <<<<<<<<<<<<\n\nx============x", log_level="info")
 except Exception as e:
 	pipeline_logger().save_logs(msg=f"Error in {STAGE_NAME}. Error: {e}", log_level="error")
 	raise e
@@ -70,7 +70,7 @@ try:
 		callbacks_list=callbacks_list()
 	)
 	obj.main()
-	pipeline_logger().save_logs(msg=f">>>>>>>>>>>> stage {STAGE_NAME} completed <<<<<<<<<<<<\n\nx============x\n\n", log_level="info")
+	pipeline_logger().save_logs(msg=f">>>>>>>>>>>> stage {STAGE_NAME} completed <<<<<<<<<<<<\n\nx============x", log_level="info")
 
 except Exception as e:
 	pipeline_logger().save_logs(msg=f"Error in {STAGE_NAME}. Error: {e}", log_level="error")

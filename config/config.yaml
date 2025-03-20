@@ -18,6 +18,7 @@ prepare_base_model:
 training:
   root_dir: models/training
   trained_model_path: models/training/model.h5
+  best_trained_model_path: models/training/best_model.h5
   data_path: data/raw/kidney-ct-scan-image
 
 evaluation:

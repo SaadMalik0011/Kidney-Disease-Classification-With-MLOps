@@ -1,0 +1,123 @@
+schema: '2.0'
+stages:
+  data_ingestion:
+    cmd: python src/pipeline/stage_01_data_ingestion.py
+    deps:
+    - path: config/config.yaml
+      hash: md5
+      md5: ca743784dfc25b554ad8daa435912770
+      size: 770
+    - path: src/pipeline/stage_01_data_ingestion.py
+      hash: md5
+      md5: 2df02c764186de7f5becdc577b9e59fb
+      size: 2055
+    outs:
+    - path: data/raw/kidney-ct-scan-image
+      hash: md5
+      md5: 33ed59dbe5dec8ce2bb8e489b55203e4.dir
+      size: 58936381
+      nfiles: 465
+  prepare_base_model:
+    cmd: python src/pipeline/stage_02_prepare_base_model.py
+    deps:
+    - path: config/config.yaml
+      hash: md5
+      md5: ca743784dfc25b554ad8daa435912770
+      size: 770
+    - path: src/pipeline/stage_02_prepare_base_model.py
+      hash: md5
+      md5: 4b68da40d3d247fd38ab3b540a5a036a
+      size: 2376
+    params:
+      params.yaml:
+        CLASSES: 2
+        FREEZE_ALL: true
+        FREEZE_TILL: None
+        IMAGE_SIZE:
+        - 224
+        - 224
+        - 3
+        INCLUDE_TOP: false
+        LEARNING_RATE: 0.02
+        WEIGHTS: imagenet
+    outs:
+    - path: models/prepare_base_model
+      hash: md5
+      md5: e148f273fc9928ec8ef693aba9122a6f.dir
+      size: 121088840
+      nfiles: 2
+  model_training:
+    cmd: python src/pipeline/stage_03_model_training.py
+    deps:
+    - path: config/config.yaml
+      hash: md5
+      md5: ca743784dfc25b554ad8daa435912770
+      size: 770
+    - path: data/raw/kidney-ct-scan-image
+      hash: md5
+      md5: 33ed59dbe5dec8ce2bb8e489b55203e4.dir
+      size: 58936381
+      nfiles: 465
+    - path: src/pipeline/stage_03_model_training.py
+      hash: md5
+      md5: a9a384760d626bd8b734395a8f64a47f
+      size: 2580
+    params:
+      params.yaml:
+        AUGMENTATION: false
+        BATCH_SIZE: 16
+        CLASSES: 2
+        EPOCHS: 1
+        FREEZE_ALL: true
+        FREEZE_TILL: None
+        IMAGE_SIZE:
+        - 224
+        - 224
+        - 3
+        INCLUDE_TOP: false
+        LEARNING_RATE: 0.02
+        WEIGHTS: imagenet
+    outs:
+    - path: models/training
+      hash: md5
+      md5: b52143450312ef9e2b23735a8206be63.dir
+      size: 124325699
+      nfiles: 3
+  model_evaluation:
+    cmd: python src/pipeline/stage_04_model_evaluation.py
+    deps:
+    - path: config/config.yaml
+      hash: md5
+      md5: ca743784dfc25b554ad8daa435912770
+      size: 770
+    - path: data/raw/kidney-ct-scan-image
+      hash: md5
+      md5: 33ed59dbe5dec8ce2bb8e489b55203e4.dir
+      size: 58936381
+      nfiles: 465
+    - path: models/training/best_model.h5
+      hash: md5
+      md5: c5617845c8aff7b248a3fdaf0857ba02
+      size: 62162776
+    - path: src/pipeline/stage_04_model_evaluation.py
+      hash: md5
+      md5: f876aed5cdf1257b8ca06ad5a4f1f318
+      size: 1839
+    params:
+      params.yaml:
+        BATCH_SIZE: 16
+        CLASSES: 2
+        FREEZE_ALL: true
+        FREEZE_TILL: None
+        IMAGE_SIZE:
+        - 224
+        - 224
+        - 3
+        INCLUDE_TOP: false
+        LEARNING_RATE: 0.02
+        WEIGHTS: imagenet
+    outs:
+    - path: scores.json
+      hash: md5
+      md5: aed04f0d214bd64336b60922048a380a
+      size: 73
