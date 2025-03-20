@@ -42,3 +42,14 @@ class TrainingConfig:
     params_epochs: int
     params_learning_rate: float
     params_activation: str
+    
+    
+@dataclass(frozen=True)
+class EvaluationConfig:
+    path_of_model: Path
+    training_data: Path
+    all_params: dict
+    mlflow_uri: str
+    params_image_size: list
+    params_batch_size: int
+    params_learning_rate: float

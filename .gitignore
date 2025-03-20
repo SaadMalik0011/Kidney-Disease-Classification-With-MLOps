@@ -92,3 +92,5 @@ target/
 .venv/
 
 training_log.csv
+/mlruns
+/logs

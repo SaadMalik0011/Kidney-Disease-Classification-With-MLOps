@@ -1,8 +1,4 @@
-import os
-import urllib.request as request
-from zipfile import ZipFile
 import tensorflow as tf
-import time
 from src.logger import CustomLogger
 import math
 from pathlib import Path

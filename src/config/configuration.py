@@ -1,7 +1,7 @@
 from src.constants import CONFIG_FILE_PATH, PARAMS_FILE_PATH
 from src.utils.common import read_yaml, create_directories
 from src.logger import CustomLogger
-from src.entity.config_entity import DataIngestionConfig, PrepareBaseModelConfig, TrainingConfig
+from src.entity.config_entity import DataIngestionConfig, PrepareBaseModelConfig, TrainingConfig, EvaluationConfig
 from pathlib import Path
 import os
 
@@ -19,6 +19,9 @@ class ConfigurationManager:
         create_directories([self.config.data_artifacts_root], logger=self.logger)
         create_directories([self.config.model_artifacts_root], logger=self.logger)
 
+
+
+
     def get_data_ingestion_config(self) -> DataIngestionConfig:
         config = self.config.data_ingestion
 
@@ -32,6 +35,9 @@ class ConfigurationManager:
         )
 
         return data_ingestion_config
+
+
+
 
     def get_prepare_base_model_config(self) -> PrepareBaseModelConfig:
         config = self.config.prepare_base_model
@@ -56,6 +62,9 @@ class ConfigurationManager:
         )
         return prepare_base_model_config
     
+    
+    
+    
     def get_training_config(self) -> TrainingConfig:
         training = self.config.training
         prepare_base_model = self.config.prepare_base_model
@@ -78,3 +87,19 @@ class ConfigurationManager:
             params_activation=self.params.ACTIVATION
         )
         return prepare_training_model_config
+
+
+
+    def get_evaluation_config(self) -> EvaluationConfig:
+        eval_config = EvaluationConfig(
+            path_of_model=self.config.training.trained_model_path,
+            training_data=self.config.training.data_path,
+            mlflow_uri=self.config.evaluation.mlflow_uri,
+            all_params=self.params,
+            params_image_size=self.params.IMAGE_SIZE,
+            params_batch_size=self.params.BATCH_SIZE,
+            params_learning_rate=self.params.LEARNING_RATE
+                
+        )
+        
+        return eval_config
