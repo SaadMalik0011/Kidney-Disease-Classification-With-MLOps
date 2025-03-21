@@ -32,7 +32,7 @@ class ModelEvaluationPipeline:
         
         evaluation = Evaluation(eval_config)
         evaluation.evaluate(self.evaluation_logger)
-        evaluation.log_into_mlflow(self.mlflow_logger)
+        # evaluation.log_into_mlflow(self.mlflow_logger) # only uncomment it when doing experimentation.
         
         
 if __name__ == "__main__":
