@@ -3,6 +3,7 @@ from src.logger import CustomLogger
 import math
 from pathlib import Path
 from src.entity.config_entity import TrainingConfig
+import os
 
 class Training:
     def __init__(self, config: TrainingConfig):
@@ -116,6 +117,7 @@ class Training:
     def train(self, train_logger: CustomLogger, callback_list: list = None):
         self.steps_per_epoch = math.ceil(self.train_generator.samples // self.train_generator.batch_size)
         self.validation_steps = math.ceil(self.valid_generator.samples // self.valid_generator.batch_size)
+        self.model.summary(show_trainable=True, expand_nested=True)
         try:
             self.model.fit(
                 self.train_generator,
@@ -132,3 +134,17 @@ class Training:
             raise e       
         
         self.save_model(path=self.config.trained_model_path, model=self.model, logger=train_logger)
+        
+        try:
+            # Define source and destination paths
+            source_file = "models/training/best_model.h5"
+            destination_file = "models/deployed_model/best_model.h5"
+
+            # Open source file in read mode and destination file in write mode
+            with open(source_file, 'rb') as src, open(destination_file, 'wb') as dst:
+                dst.write(src.read())
+
+            train_logger.save_logs(msg=f"Model copied to {destination_file} successfully", log_level="info")
+        except Exception as e:
+            train_logger.save_logs(msg=f"Model failed to copy to {destination_file}. Error: {e}", log_level="error")
+            raise e

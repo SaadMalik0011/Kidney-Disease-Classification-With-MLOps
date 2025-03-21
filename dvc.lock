@@ -31,20 +31,20 @@ stages:
     params:
       params.yaml:
         CLASSES: 2
-        FREEZE_ALL: true
-        FREEZE_TILL: None
+        FREEZE_ALL: false
+        FREEZE_TILL: 2
         IMAGE_SIZE:
         - 224
         - 224
         - 3
         INCLUDE_TOP: false
-        LEARNING_RATE: 0.02
+        LEARNING_RATE: 0.01
         WEIGHTS: imagenet
     outs:
     - path: models/prepare_base_model
       hash: md5
-      md5: e148f273fc9928ec8ef693aba9122a6f.dir
-      size: 121088840
+      md5: db19f26434a6f85df5145332b24cc75b.dir
+      size: 121088824
       nfiles: 2
   model_training:
     cmd: python src/pipeline/stage_03_model_training.py
@@ -67,21 +67,21 @@ stages:
         AUGMENTATION: false
         BATCH_SIZE: 16
         CLASSES: 2
-        EPOCHS: 1
-        FREEZE_ALL: true
-        FREEZE_TILL: None
+        EPOCHS: 20
+        FREEZE_ALL: false
+        FREEZE_TILL: 2
         IMAGE_SIZE:
         - 224
         - 224
         - 3
         INCLUDE_TOP: false
-        LEARNING_RATE: 0.02
+        LEARNING_RATE: 0.01
         WEIGHTS: imagenet
     outs:
     - path: models/training
       hash: md5
-      md5: b52143450312ef9e2b23735a8206be63.dir
-      size: 124325699
+      md5: 7da106bb35baee81dfa9ff949b41c95d.dir
+      size: 124327242
       nfiles: 3
   model_evaluation:
     cmd: python src/pipeline/stage_04_model_evaluation.py
@@ -97,8 +97,8 @@ stages:
       nfiles: 465
     - path: models/training/best_model.h5
       hash: md5
-      md5: c5617845c8aff7b248a3fdaf0857ba02
-      size: 62162776
+      md5: 366faa81d00694ff9882c0448ecca024
+      size: 62162760
     - path: src/pipeline/stage_04_model_evaluation.py
       hash: md5
       md5: f876aed5cdf1257b8ca06ad5a4f1f318
@@ -107,17 +107,17 @@ stages:
       params.yaml:
         BATCH_SIZE: 16
         CLASSES: 2
-        FREEZE_ALL: true
-        FREEZE_TILL: None
+        FREEZE_ALL: false
+        FREEZE_TILL: 2
         IMAGE_SIZE:
         - 224
         - 224
         - 3
         INCLUDE_TOP: false
-        LEARNING_RATE: 0.02
+        LEARNING_RATE: 0.01
         WEIGHTS: imagenet
     outs:
     - path: scores.json
       hash: md5
-      md5: aed04f0d214bd64336b60922048a380a
-      size: 73
+      md5: 688f1f58fb67e65a559501c531074fa3
+      size: 59

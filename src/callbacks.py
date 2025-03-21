@@ -9,11 +9,11 @@ def callbacks_list():
     log_dir = "logs"
     os.makedirs(log_dir, exist_ok=True)
 
-    early_stopping = callbacks.EarlyStopping(monitor='val_loss', patience=10, restore_best_weights=True)
+    early_stopping = callbacks.EarlyStopping(monitor='val_loss', patience=4, restore_best_weights=True)
 
     # Learning Rate Scheduler
     def scheduler(epoch, lr):
-        if epoch < 10:
+        if epoch < 5:
             return lr
         else:
             return lr * tf.math.exp(-0.1).numpy()
